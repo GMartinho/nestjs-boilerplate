@@ -1,0 +1,5 @@
+{
+    "exception": {
+        "notFound": "User not found."
+    }
+}
