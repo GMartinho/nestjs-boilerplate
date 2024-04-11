@@ -1,45 +1,45 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { UserAccount, UserProvider, UserSetting } from "@prisma/client";
+import { ApiProperty } from '@nestjs/swagger';
+import { UserAccount, UserProvider, UserSetting } from '@prisma/client';
 
 export class UserEntity implements UserAccount {
-    @ApiProperty()
-    id: string;
+  @ApiProperty()
+  id: string;
 
-    @ApiProperty()
-    createdAt: Date;
+  @ApiProperty()
+  createdAt: Date;
 
-    @ApiProperty()
-    updatedAt: Date;
+  @ApiProperty()
+  updatedAt: Date;
 
-    @ApiProperty()
-    firstName: string;
+  @ApiProperty()
+  firstName: string;
 
-    @ApiProperty()
-    lastName: string;
+  @ApiProperty()
+  lastName: string;
 
-    @ApiProperty()
-    role: string;
+  @ApiProperty()
+  role: string;
 
-    @ApiProperty()
-    email: string;
+  @ApiProperty()
+  email: string;
 
-    @ApiProperty()
-    password: string;
+  @ApiProperty()
+  password: string;
 
-    @ApiProperty()
-    status: string;
+  @ApiProperty()
+  status: string;
 
-    @ApiProperty()
-    phone: string;
+  @ApiProperty()
+  phone: string;
 
-    @ApiProperty()
-    avatarPath: string;
+  @ApiProperty()
+  avatarPath: string;
 
-    providers?: UserProvider[];
+  providers?: UserProvider[];
 
-    setting?: UserSetting;
+  setting?: UserSetting;
 
-    constructor(partial: Partial<UserEntity>) {
-        Object.assign(this, partial);
-    }
+  constructor(partial: Partial<UserEntity>) {
+    Object.assign(this, partial);
+  }
 }

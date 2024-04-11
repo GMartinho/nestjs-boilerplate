@@ -5,11 +5,9 @@ import { FileStorageModule } from 'src/file-storage/file-storage.module';
 import { UserRepository } from './user.repository';
 
 @Module({
-  imports: [
-    FileStorageModule
-  ],
+  imports: [FileStorageModule],
   controllers: [UserController],
   providers: [UserService, UserRepository],
-  exports: [UserRepository]
+  exports: [UserRepository],
 })
 export class UserModule {}

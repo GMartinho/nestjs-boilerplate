@@ -8,13 +8,11 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserRepository {
-  constructor(
-    private readonly database: Database
-  ) {}
+  constructor(private readonly database: Database) {}
 
   async create(user: Prisma.UserAccountCreateInput): Promise<UserEntity> {
     return this.database.userAccount.create({
-      data: user
+      data: user,
     });
   }
 
@@ -25,16 +23,16 @@ export class UserRepository {
   async findById(id: string): Promise<UserEntity> {
     return this.database.userAccount.findUnique({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
     return this.database.userAccount.findFirst({
       where: {
-        email
-      }
+        email,
+      },
     });
   }
 
@@ -44,35 +42,35 @@ export class UserRepository {
         providers: {
           some: {
             provider,
-            providerKey
-          }
-        }
-      }
+            providerKey,
+          },
+        },
+      },
     });
   }
 
   async upsert(user: Partial<UserEntity>) {
     return this.database.userAccount.upsert({
       where: {
-        email: user.email
+        email: user.email,
       },
       update: user as UpdateUserRequestDto,
       create: user as CreateUserRequestDto,
-    })
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserRequestDto) {
     return this.database.userAccount.update({
       where: { id },
-      data: updateUserDto
-    })
+      data: updateUserDto,
+    });
   }
 
   async remove(id: string) {
     return this.database.userAccount.delete({
       where: {
-        id
-      }
-    })
+        id,
+      },
+    });
   }
 }

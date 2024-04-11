@@ -9,20 +9,19 @@ async function bootstrap() {
   const { httpAdapter } = app.get(HttpAdapterHost);
 
   app.setGlobalPrefix('api');
-  
+
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
       transform: true,
       dismissDefaultMessages: true,
-      exceptionFactory: (errors) => new UnprocessableEntityException(errors),
+      exceptionFactory: errors => new UnprocessableEntityException(errors),
     }),
   );
 
-  
   app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaClientExceptionFilter(httpAdapter));
 
   await app.listen(3000);

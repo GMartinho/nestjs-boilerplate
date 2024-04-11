@@ -15,5 +15,4 @@ export class AuthGoogleController {
     const providedUser = await this.authGoogleService.login(loginGoogleRequestDto);
     return new LoginGoogleResponseDto(providedUser);
   }
-
 }

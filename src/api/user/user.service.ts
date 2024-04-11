@@ -15,7 +15,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly fileStorage: FileStorageService,
-    private readonly env: Environment
+    private readonly env: Environment,
   ) {}
 
   async create(createUserDto: CreateUserRequestDto): Promise<UserEntity> {
@@ -27,7 +27,7 @@ export class UserService {
 
     return this.userRepository.create({
       ...createUserDto,
-      password: hashPassword
+      password: hashPassword,
     });
   }
 
@@ -38,11 +38,11 @@ export class UserService {
   async findById(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findById(id);
 
-    if(!user) {
+    if (!user) {
       throw new UserNotFoundException();
     }
 
-    return user
+    return user;
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
@@ -70,10 +70,10 @@ export class UserService {
   }
 
   async createAvatar(image: File, userId: string) {
-    const [ filePath ] = await this.fileStorage.create(image, userId, this.env.bucket.name)
+    const [filePath] = await this.fileStorage.create(image, userId, this.env.bucket.name);
 
     return this.userRepository.update(userId, {
-      avatarPath: filePath
-    })
+      avatarPath: filePath,
+    });
   }
 }

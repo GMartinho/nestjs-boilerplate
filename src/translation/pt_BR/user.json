@@ -1,5 +1,5 @@
 {
-    "exception": {
-        "notFound": "Usuário não encontrado."
-    }
+  "exception": {
+    "notFound": "Usuário não encontrado."
+  }
 }

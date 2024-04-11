@@ -18,11 +18,11 @@ import { UserModule } from '../user/user.module';
       useFactory: async (env: Environment) => ({
         secret: env.jwtSecret,
         signOptions: { expiresIn: '2h' },
-      })
-    })
+      }),
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtService],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule {}

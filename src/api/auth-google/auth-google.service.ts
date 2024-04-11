@@ -11,19 +11,17 @@ import { UserEntity } from '../user/entity/user.entity';
 export class AuthGoogleService {
   private googleClient: OAuth2Client;
 
-  constructor(private readonly env: Environment, private readonly authService: AuthService) {
-    this.googleClient = new OAuth2Client(
-      env.google.clientId,
-      env.google.clientSecret
-    )
+  constructor(
+    private readonly env: Environment,
+    private readonly authService: AuthService,
+  ) {
+    this.googleClient = new OAuth2Client(env.google.clientId, env.google.clientSecret);
   }
-  
+
   async login(loginDto: LoginGoogleRequestDto) {
     const ticket: LoginTicket = await this.googleClient.verifyIdToken({
       idToken: loginDto.idToken,
-      audience: [
-        this.env.google.clientId
-      ]
+      audience: [this.env.google.clientId],
     });
 
     const payload: TokenPayload = ticket.getPayload();
@@ -36,10 +34,9 @@ export class AuthGoogleService {
       email: payload.email,
       firstName: payload.given_name,
       lastName: payload.family_name,
-      avatarPath: payload.picture
-    }
+      avatarPath: payload.picture,
+    };
 
     return this.authService.findOrUpsertUser(googleData, UserProviderOptions.GOOGLE, payload.sub);
   }
-
 }

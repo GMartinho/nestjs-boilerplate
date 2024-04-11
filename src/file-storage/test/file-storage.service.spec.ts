@@ -22,7 +22,7 @@ describe('FileStorageService', () => {
     service.create(buffer, 'abc', 'blabla', 'oi');
     service.fileStorageClient = new GCloudStorageClient();
     service.create(buffer, 'abc', 'blabla', 'oi');
-    
+
     expect(service).toBeDefined();
   });
 });

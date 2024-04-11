@@ -16,12 +16,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         const statusCode = exception.getStatus();
 
         const httpExceptionResponse: HttpExceptionResponse = {
-            statusCode: statusCode,
-            message: exception.message,
-            error: exception.name,
-            timestamp: new Date().toISOString(),
-            path: request.url,
-        }
+          statusCode: statusCode,
+          message: exception.message,
+          error: exception.name,
+          timestamp: new Date().toISOString(),
+          path: request.url,
+        };
 
         return response.status(statusCode).json(httpExceptionResponse);
       },
@@ -30,17 +30,15 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         const statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
 
         const httpExceptionResponse: HttpExceptionResponse = {
-            statusCode: statusCode,
-            message: i18n.t('http.exception.internalServerError') || http.exception.internalServerError,
-            error: 'NotHandledHttpError',
-            timestamp: new Date().toISOString(),
-            path: request.url,
-        }
+          statusCode: statusCode,
+          message: i18n.t('http.exception.internalServerError') || http.exception.internalServerError,
+          error: 'NotHandledHttpError',
+          timestamp: new Date().toISOString(),
+          path: request.url,
+        };
 
         response.status(statusCode).json(httpExceptionResponse);
-      }
-    }
-
-    
+      },
+    };
   }
 }

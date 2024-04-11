@@ -6,8 +6,8 @@ import { NodemailerClient } from './client/nodemailer.client';
   providers: [
     EmailService,
     {
-        provide: 'MAILER_CLIENT',
-        useClass: NodemailerClient
+      provide: 'MAILER_CLIENT',
+      useClass: NodemailerClient,
     },
   ],
   exports: [EmailService],

@@ -1,5 +1,5 @@
 {
-    "exception": {
-        "internalServerError": "Um erro inesperado ocorreu."
-    }
+  "exception": {
+    "internalServerError": "Um erro inesperado ocorreu."
+  }
 }

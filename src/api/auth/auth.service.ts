@@ -15,8 +15,13 @@ import { EmailAlreadyConfirmedException } from './exception/email-already-confir
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRepository: UserRepository, private readonly jwtService: JwtService, private readonly env: Environment, private readonly emailService: EmailService) {}
-  
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly jwtService: JwtService,
+    private readonly env: Environment,
+    private readonly emailService: EmailService,
+  ) {}
+
   async login(email: string, password: string): Promise<string> {
     const user: UserEntity = await this.userRepository.findByEmail(email);
 
@@ -32,18 +37,13 @@ export class AuthService {
 
     return this.generateToken({ userId: user.id, role: user.role });
   }
-  
+
   async findOrUpsertUser(providedUser: Partial<UserEntity>, provider: UserProviderOptions, providerKey: string) {
     const { email } = providedUser;
 
-    const [userByEmail, userByProvider] = await Promise.all([
-      this.userRepository.findByEmail(email),
-      this.userRepository.findByProvider(provider, providerKey)
-    ]);
+    const [userByEmail, userByProvider] = await Promise.all([this.userRepository.findByEmail(email), this.userRepository.findByProvider(provider, providerKey)]);
 
-    const user = JSON.stringify(userByProvider) === JSON.stringify(userByEmail) 
-                 ? userByEmail
-                 : await this.userRepository.upsert(providedUser);
+    const user = JSON.stringify(userByProvider) === JSON.stringify(userByEmail) ? userByEmail : await this.userRepository.upsert(providedUser);
 
     return this.generateToken({ userId: user.id, role: user.role });
   }
@@ -52,30 +52,30 @@ export class AuthService {
     const createdUser = await this.userRepository.create({
       ...user,
       role: UserAccountRole.DEFAULT_USER,
-      status: UserAccountStatus.INACTIVE
-    })
+      status: UserAccountStatus.INACTIVE,
+    });
 
     const hash = await this.jwtService.signAsync(
       {
-        confirmEmailUserId: createdUser.id
+        confirmEmailUserId: createdUser.id,
       },
       {
         secret: this.env.authConfig.confirmEmailSecret,
-        expiresIn: this.env.authConfig.confirmEmailExpiresIn
-      }
-    )
+        expiresIn: this.env.authConfig.confirmEmailExpiresIn,
+      },
+    );
 
     await this.emailService.userSignUp({
       to: createdUser.email,
       data: {
-        hash
-      }
-    })
+        hash,
+      },
+    });
   }
 
   async confirmEmail(token: string): Promise<void> {
     const jwtData = await this.jwtService.verifyAsync(token, {
-      secret: this.env.authConfig.confirmEmailSecret
+      secret: this.env.authConfig.confirmEmailSecret,
     });
 
     const userId = jwtData?.confirmEmailUserId;
@@ -95,8 +95,8 @@ export class AuthService {
     }
 
     await this.userRepository.update(user.id, {
-      status: UserAccountStatus.ACTIVE
-    })
+      status: UserAccountStatus.ACTIVE,
+    });
   }
 
   validateUser(userId: string) {
@@ -108,7 +108,7 @@ export class AuthService {
 
     return this.jwtService.sign({
       userId,
-      role
-    })
+      role,
+    });
   }
 }

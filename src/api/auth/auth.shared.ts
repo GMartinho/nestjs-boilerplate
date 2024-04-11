@@ -1,4 +1,4 @@
 export type TokenData = {
-    userId: string,
-    role: string
-}
+  userId: string;
+  role: string;
+};

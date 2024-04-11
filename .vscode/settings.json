@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "GitHub Dark",
-    "material-icon-theme.activeIconPack": "nest",
-    "editor.bracketPairColorization.enabled": true
+  "workbench.colorTheme": "GitHub Dark",
+  "material-icon-theme.activeIconPack": "nest",
+  "editor.bracketPairColorization.enabled": true
 }

@@ -7,7 +7,7 @@ import { AwsS3Client } from './client/aws-s3.client';
     FileStorageService,
     {
       provide: 'FILE_STORAGE_CLIENT',
-      useClass: AwsS3Client
+      useClass: AwsS3Client,
     },
   ],
   exports: [FileStorageService],

@@ -16,7 +16,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @ApiCreatedResponse({type: CreateUserResponseDto})
+  @ApiCreatedResponse({ type: CreateUserResponseDto })
   async create(@Body() createUserDto: CreateUserRequestDto): Promise<CreateUserResponseDto> {
     const createdUser = await this.userService.create(createUserDto);
     return new CreateUserResponseDto(createdUser);

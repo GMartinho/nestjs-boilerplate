@@ -9,11 +9,11 @@ import { MaybeType } from 'src/app.shared';
 export class EmailService {
   constructor(
     @Inject('MAILER_CLIENT') private mailer: MailerClient,
-    private readonly env: Environment
+    private readonly env: Environment,
   ) {}
 
   set mailerClient(mailer: MailerClient) {
-    this.mailer = mailer
+    this.mailer = mailer;
   }
 
   async userSignUp(mailData: EmailData<{ hash: string }>): Promise<void> {
@@ -32,22 +32,14 @@ export class EmailService {
       ]);
     }
 
-    const url = new URL(
-      `${this.env.app.frontendDomain}/confirm-email`
-    );
+    const url = new URL(`${this.env.app.frontendDomain}/confirm-email`);
     url.searchParams.set('hash', mailData.data.hash);
 
     await this.mailer.sendMail({
       to: mailData.to,
       subject: emailConfirmTitle,
       text: `${url.toString()} ${emailConfirmTitle}`,
-      templatePath: path.join(
-        this.env.app.workingDirectory,
-        'src',
-        'mail',
-        'mail-templates',
-        'activation.hbs',
-      ),
+      templatePath: path.join(this.env.app.workingDirectory, 'src', 'mail', 'mail-templates', 'activation.hbs'),
       context: {
         title: emailConfirmTitle,
         url: url.toString(),
@@ -60,9 +52,7 @@ export class EmailService {
     });
   }
 
-  async forgotPassword(
-    mailData: EmailData<{ hash: string; tokenExpires: number }>,
-  ): Promise<void> {
+  async forgotPassword(mailData: EmailData<{ hash: string; tokenExpires: number }>): Promise<void> {
     const i18n = I18nContext.current();
     let resetPasswordTitle: MaybeType<string>;
     let text1: MaybeType<string>;
@@ -80,9 +70,7 @@ export class EmailService {
       ]);
     }
 
-    const url = new URL(
-      `${this.env.app.frontendDomain}/password-change`
-    );
+    const url = new URL(`${this.env.app.frontendDomain}/password-change`);
     url.searchParams.set('hash', mailData.data.hash);
     url.searchParams.set('expires', mailData.data.tokenExpires.toString());
 
@@ -90,13 +78,7 @@ export class EmailService {
       to: mailData.to,
       subject: resetPasswordTitle,
       text: `${url.toString()} ${resetPasswordTitle}`,
-      templatePath: path.join(
-        this.env.app.workingDirectory,
-        'src',
-        'mail',
-        'mail-templates',
-        'reset-password.hbs',
-      ),
+      templatePath: path.join(this.env.app.workingDirectory, 'src', 'mail', 'mail-templates', 'reset-password.hbs'),
       context: {
         title: resetPasswordTitle,
         url: url.toString(),

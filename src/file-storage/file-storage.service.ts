@@ -5,8 +5,10 @@ import { Environment } from '../env/environment';
 
 @Injectable()
 export class FileStorageService {
-  
-  constructor(@Inject('FILE_STORAGE_CLIENT') private fileStorage: FileStorageClient, private readonly env: Environment) {}
+  constructor(
+    @Inject('FILE_STORAGE_CLIENT') private fileStorage: FileStorageClient,
+    private readonly env: Environment,
+  ) {}
 
   set fileStorageClient(fileStorage: FileStorageClient) {
     this.fileStorage = fileStorage;
@@ -17,9 +19,9 @@ export class FileStorageService {
 
     const filePath: string = `${userId}${path ? `/${path}` : ''}`;
 
-    const fileKey: string =  `${filePath}/${randomUUID()}:${originalname}`;
-    
-    const uploadedFile = await this.fileStorage.upload(bucketName, fileKey, buffer)
+    const fileKey: string = `${filePath}/${randomUUID()}:${originalname}`;
+
+    const uploadedFile = await this.fileStorage.upload(bucketName, fileKey, buffer);
 
     return [fileKey, uploadedFile['Location']];
   }
@@ -57,14 +59,17 @@ export class FileStorageService {
   async update(user_id: string, file, bucket: string, parent_id?: number) {
     const { buffer, originalname } = file;
 
-    const fileKey: string =  parent_id ? `${user_id}/${parent_id}/${randomUUID()}:${originalname}` : `${user_id}/${randomUUID()}:${originalname}`;
+    const fileKey: string = parent_id ? `${user_id}/${parent_id}/${randomUUID()}:${originalname}` : `${user_id}/${randomUUID()}:${originalname}`;
 
     const bucketEnv: string = this.env.bucket.name;
 
-    return await this.fileStorage.upload(bucketEnv, fileKey, buffer).then((response) => {
+    return await this.fileStorage
+      .upload(bucketEnv, fileKey, buffer)
+      .then(response => {
         const fileLocation = response['Location'];
         return [fileKey, fileLocation];
-      }).catch((error) => {
+      })
+      .catch(error => {
         throw new HttpException('The service responsible to persist your file is currently unavailable', HttpStatus.SERVICE_UNAVAILABLE);
       });
   }

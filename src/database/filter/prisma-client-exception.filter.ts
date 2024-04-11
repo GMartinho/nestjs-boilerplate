@@ -26,8 +26,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         return {
           statusCode: statusP2000,
           message: messageP2000,
-          error: 'Bad Request'
-        }
+          error: 'Bad Request',
+        };
       },
       P2002: () => {
         const statusP2002 = HttpStatus.CONFLICT;
@@ -39,8 +39,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         return {
           statusCode: statusP2002,
           message: messageP2002,
-          error: 'Conflict'
-        }
+          error: 'Conflict',
+        };
       },
       P2012: () => {
         const statusP2012 = HttpStatus.BAD_REQUEST;
@@ -52,8 +52,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         return {
           statusCode: statusP2012,
           message: messageP2012,
-          error: 'Bad Request'
-        }
+          error: 'Bad Request',
+        };
       },
       /* P2023: () => {
         const statusP2023 = HttpStatus.BAD_REQUEST;
@@ -77,8 +77,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         return {
           statusCode: statusP2025,
           message: messageP2025,
-          error: 'Not Found'
-        }
+          error: 'Not Found',
+        };
       },
       default: () => {
         const statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -86,10 +86,10 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         return {
           statusCode: statusCode,
           message: i18n.t('http.exception.internalServerError') || http.exception.internalServerError,
-          error: 'NotHandledDatabaseError'
-        }
-      }
-    }
+          error: 'NotHandledDatabaseError',
+        };
+      },
+    };
 
     const { statusCode, message, error } = exceptions?.[exception?.code]?.() ?? exceptions.default();
 
@@ -99,7 +99,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
       error: error,
       timestamp: new Date().toISOString(),
       path: request.url,
-    }
+    };
 
     response.status(statusCode).json(httpExceptionResponse);
   }

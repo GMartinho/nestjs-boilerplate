@@ -93,7 +93,6 @@ export class Environment {
       port: this.getString('APP_PORT'),
       frontendDomain: this.getString('APP_FRONTEND_DOMAIN'),
       workingDirectory: this.getString('APP_WORKING_DIRECTORY'),
-
     };
   }
 
@@ -104,8 +103,8 @@ export class Environment {
   get google() {
     return {
       clientId: this.getString('GOOGLE_CLIENT_ID'),
-      clientSecret: this.getString('GOOGLE_CLIENT_SECRET')
-    }
+      clientSecret: this.getString('GOOGLE_CLIENT_SECRET'),
+    };
   }
 
   get emailConfig() {
@@ -117,10 +116,10 @@ export class Environment {
       requireTLS: this.getString('EMAIL_CONFIG_REQUIRE_TLS'),
       auth: {
         user: this.getString('EMAIL_CONFIG_AUTH_USER'),
-        pass: this.getString('EMAIL_CONFIG_AUTH_PASS')
+        pass: this.getString('EMAIL_CONFIG_AUTH_PASS'),
       },
       defaultName: this.getString('EMAIL_CONFIG_DEFAULT_NAME'),
-      defaultEmail: this.getString('EMAIL_CONFIG_DEFAULT_EMAIL')
-    }
+      defaultEmail: this.getString('EMAIL_CONFIG_DEFAULT_EMAIL'),
+    };
   }
 }

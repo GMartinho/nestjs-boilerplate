@@ -4,6 +4,6 @@ import { Database } from './database';
 @Global()
 @Module({
   providers: [Database],
-  exports: [Database]
+  exports: [Database],
 })
 export class DatabaseModule {}

@@ -9,7 +9,6 @@ import { ConfigModule } from '@nestjs/config';
 import { Environment } from './env/environment';
 import { EnvironmentModule } from './env/environment.module';
 import { AuthGoogleModule } from './api/auth-google/auth-google.module';
-import { FileStorageProvider } from './app.shared';
 
 @Module({
   imports: [
@@ -25,11 +24,7 @@ import { FileStorageProvider } from './app.shared';
           watch: !env.isProduction,
         },
       }),
-      resolvers: [
-        { use: QueryResolver, options: ['lang'] },
-        AcceptLanguageResolver,
-        new HeaderResolver(['x-lang']),
-      ],
+      resolvers: [{ use: QueryResolver, options: ['lang'] }, AcceptLanguageResolver, new HeaderResolver(['x-lang'])],
       imports: [EnvironmentModule],
       inject: [Environment],
     }),
@@ -40,6 +35,6 @@ import { FileStorageProvider } from './app.shared';
     UserModule,
   ],
   controllers: [],
-  providers: []
+  providers: [],
 })
 export class AppModule {}
