@@ -1,0 +1,6 @@
+{
+    "exception": {
+        "P2000": "O valor fornecido para {target} é muito longo.",
+        "P2002": "{target} já registrado."
+    }
+}

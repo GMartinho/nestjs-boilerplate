@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,27 +7,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user_account {
-  id            String                   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  created_at    DateTime                 @default(now()) @db.Timestamptz(3)
-  updated_at    DateTime                 @updatedAt @db.Timestamptz(3)
-  first_name    String                   @db.Citext
-  last_name     String                   @db.Citext
-  email         String                   @unique @db.Citext
-  password      String
-  role          String                   @default("USER")
-  status        String                   @default("ACTIVE")
-  provider      String                   @default("EMAIL")
-  provider_key  String?
-  phone         String?
-  avatar_path   String?
+model UserAccount {
+  id           String         @id(map: "pkey_user_account") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime       @updatedAt @map("updated_at") @db.Timestamptz(3)
+  firstName    String         @map("first_name") @db.Citext
+  lastName     String         @map("last_name") @db.Citext
+  email        String         @unique @db.Citext
+  password     String?        @db.VarChar(255)
+  role         String         @default("DEFAULT_USER") @db.VarChar(255)
+  status       String         @default("ACTIVE") @db.VarChar(255)
+  phone        String?        @db.VarChar(255)
+  avatarPath   String?        @map("avatar_path")
+  providers    UserProvider[]
+  setting      UserSetting[]
+
+  @@index([email], map: "idx_user_account_email")
+  @@map("user_account")
 }
 
-model user_settings {
-  id                  BigInt                   @id
-  user_account_id     String                   
-  created_at          DateTime                 @default(now()) @db.Timestamptz(3)
-  updated_at          DateTime                 @updatedAt @db.Timestamptz(3)
-  is_email_verified   Boolean
-  is_phone_verified   Boolean
+model UserSetting {
+  id              BigInt      @id(map: "pkey_user_setting") @default(autoincrement())
+  createdAt       DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+  userAccountId   String      @map("user_account_id") @db.Uuid
+  isEmailVerified Boolean     @map("is_email_verified")
+  isPhoneVerified Boolean     @map("is_phone_verified")
+  userAccount     UserAccount @relation(fields: [userAccountId], references: [id], map: "fk_user_setting_user_account_id")
+
+  @@map("user_setting")
+}
+
+model UserProvider {
+  id            BigInt      @id(map: "pkey_user_provider") @default(autoincrement())
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+  userAccountId String      @map("user_account_id") @db.Uuid
+  provider      String      @db.VarChar(255)
+  providerKey   String?     @map("provider_key")
+  metadata      Json?
+  userAccount   UserAccount @relation(fields: [userAccountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_provider_user_account_id")
+
+  @@index([provider, providerKey], map: "idx_user_provider_provider_provider_key")
+  @@map("user_provider")
 }

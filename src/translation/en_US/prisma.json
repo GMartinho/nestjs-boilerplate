@@ -1,0 +1,6 @@
+{
+    "exception": {
+        "P2000": "The provided value for {target} is too long.",
+        "P2002": "{target} has already been registered."
+    }
+}

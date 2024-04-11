@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  psql-db:
+    image: postgres:15.4-alpine
+    ports:
+      - ${DATABASE_PORT}:5432
+    volumes:
+      - psql-data:/var/lib/postgresql/data
+    environment:
+      PGTZ: UTC
+      TZ: UTC
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+volumes:
+  psql-data:

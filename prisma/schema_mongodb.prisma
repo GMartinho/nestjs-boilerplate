@@ -10,19 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum RoleUserAccount {
+enum UserAccountRole {
   USER
   ADMIN
 }
 
-enum StatusUserAccount {
+enum UserAccountStatus {
   ACTIVE
   INACTIVE
   SUSPENDED
   ARCHIVED
 }
 
-enum ProviderUserAccount {
+enum UserProviderOptions {
   EMAIL
   GOOGLE
   FACEBOOK
@@ -38,6 +38,6 @@ model user_account {
   last_name  String
   email      String     @unique
   password   String
-  role       RoleUserAccount       @default(USER)
-  status     StatusUserAccount     @default(ACTIVE)
+  role       UserAccountRole       @default(USER)
+  status     UserAccountStatus     @default(ACTIVE)
 }
